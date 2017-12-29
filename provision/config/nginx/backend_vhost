@@ -1,0 +1,27 @@
+server {
+        listen 80;
+
+        server_name backend.com;
+
+        root /shared/development/backend/public;
+        index  index.php index.html index.htm;
+
+        location / {
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection keep-alive;
+                proxy_set_header Host $host;
+                proxy_cache_bypass $http_upgrade;
+#               try_files $uri $uri/ =404;
+               try_files $uri $uri/ /index.php?$query_string;
+        }
+
+        location ~ \.php$ {
+                try_files $uri =404;
+                fastcgi_split_path_info ^(.+\.php)(/.+)$;
+                fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+                fastcgi_index index.php;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                include fastcgi_params;
+        }
+}

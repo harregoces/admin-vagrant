@@ -1,0 +1,11 @@
+*.launch
+/*.project
+*.DS_Store
+thumbs.db
+/*.svn
+/*.git
+*.externalToolBuilders
+/*.settings
+/.vagrant
+/.idea
+/config.json
